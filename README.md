@@ -20,6 +20,8 @@ This Apple Silicon port is inspired by
   - `game/mslugx/` and `game/neogeo/`, or
   - `mslugx.zip` and `neogeo.zip`
 
+Compatibility with the GOG version of Metal Slug X has not been verified.
+
 ## Quick start
 
 ```sh
