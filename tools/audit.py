@@ -27,7 +27,7 @@ import zipfile
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parents[1]
-TEXT_SUFFIXES = {".md", ".c", ".h", ".m", ".mm", ".metal", ".py", ".sh", ".lua", ".csv",
+TEXT_SUFFIXES = {".md", ".c", ".h", ".m", ".mm", ".metal", ".py", ".sh", ".lua", ".java", ".csv",
                  ".txt", ".cmake", ".json", ".toml", ".cpp", ".ipp", ".plist", ".yml", ""}
 LIMIT = 1 << 20
 PNG_SIGNATURE = b"\x89PNG\r\n\x1a\n"
