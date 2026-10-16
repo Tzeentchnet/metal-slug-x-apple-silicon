@@ -42,6 +42,7 @@
 !*.metal
 !*.sh
 !*.plist
+!*.plist.in
 !*.entitlements
 !external/**/LICENSE
 
