@@ -1,0 +1,6 @@
+* text=auto
+*.sh text eol=lf
+*.metal text eol=lf
+*.mm text eol=lf
+*.plist text eol=lf
+tools/hooks/* text eol=lf

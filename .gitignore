@@ -1,0 +1,83 @@
+# =====================================================================
+# Projecto Decompile - STRICT .gitignore (whitelist)
+#
+# Project rule 1: the repo NEVER contains ROMs, BIOS, graphics,
+# audio or extracted data blocks. That is why EVERYTHING is ignored by
+# default and only code and documentation file types are allowed.
+# If you need a new type, add it below explicitly and justify it.
+# =====================================================================
+
+# 1) Ignore everything...
+*
+
+# 2) ...but allow descending into folders (so the whitelist works)
+!*/
+
+# 3) Whitelist: code, scripts, build and documentation
+!.gitignore
+!.gitattributes
+!*.md
+!*.c
+!*.h
+!*.py
+!*.ps1
+!*.bat
+!*.rc
+!*.lua
+!*.java
+!docs/*.csv
+!CMakeLists.txt
+!*.cmake
+!*.json
+!*.toml
+!*.txt
+!tools/hooks/*
+# Phase 10: license file and the GitHub Actions workflow
+!LICENSE
+!.github/workflows/*.yml
+# Phase 3B: ymfm (BSD-3) is written in C++; third-party licenses without extension
+!*.cpp
+!*.mm
+!*.ipp
+!*.metal
+!*.sh
+!*.plist
+!*.entitlements
+!external/**/LICENSE
+
+# 4) Always ignored, even if it matches the whitelist
+build/
+out/
+_build*/
+build-*/
+.tools/
+.private/
+*.app/
+*.dmg
+*.metallib
+**/__pycache__/
+roms/
+dumps/
+extraido/
+**/mslugx_*
+*.zip
+*.7z
+*.bin
+*.rom
+*.neo
+*.p1
+*.p2
+*.s1
+*.m1
+*.v[0-9]
+*.c[0-9]
+*.sp1
+*.wav
+*.ogg
+*.png
+*.bmp
+*.raw
+*.sav
+*.state
+*.inp
+*.log
