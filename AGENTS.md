@@ -3,7 +3,10 @@
 ## Scope
 
 - This is a macOS 13+ Apple Silicon-only port.
-- Never add ROMs, BIOS files, generated game code, captures, or other game-derived content.
+- Never add ROMs, BIOS files, generated game code, game-derived captures, or other game-derived
+  content.
+- ROM-free, project-owned documentation screenshots require exact path and content allowlisting in
+  the publication guards.
 - Keep clean (`PD_RECOMPILED=OFF`) and private personal builds strictly separated.
 - MAME is an oracle and hardware reference, not a source of copied implementation code.
 

@@ -5,8 +5,8 @@ Usage:
   python tools/audit.py release ZIP [--roms DIR]
 
 history: every file of every commit (all branches) must be text of an allowed kind (the
-  .gitignore whitelist), at most 1 MB, and must not hold long runs of hex, base64 or byte-array
-  literals (encoded data).
+  .gitignore whitelist), except exact hash-allowlisted ROM-free documentation screenshots. Files
+  must be at most 1 MB and must not hold long runs of hex, base64 or byte-array literals.
 release: the zip may only hold the expected files, and its executable must have been built
   without the recompiled program.
 Both: no run of varied bytes copied from the user's ROM files (--roms or PD_GAME; skipped if
@@ -18,6 +18,7 @@ Exit code 0 = clean. This script contains no ROM data; it reads the user's copy 
 from __future__ import annotations
 
 import argparse
+import hashlib
 import os
 import re
 import subprocess
@@ -29,6 +30,15 @@ REPO = Path(__file__).resolve().parents[1]
 TEXT_SUFFIXES = {".md", ".c", ".h", ".m", ".mm", ".metal", ".py", ".sh", ".lua", ".csv",
                  ".txt", ".cmake", ".json", ".toml", ".cpp", ".ipp", ".plist", ".yml", ""}
 LIMIT = 1 << 20
+PNG_SIGNATURE = b"\x89PNG\r\n\x1a\n"
+DOCUMENTATION_SCREENSHOTS = {
+    "docs/screenshots/rom-setup.png": {
+        "04f08026d205647092072f9d558ed9d4d26e0049405dfd5a9497fe86abc34bf0",
+    },
+    "docs/screenshots/rom-validation.png": {
+        "5fe2f9e72fd31c0ce4d71d2256917fb40dd87ac2d0dd88b360baaf95f89e72fa",
+    },
+}
 HEX_RUN = re.compile(rb"[0-9A-Fa-f]{129,}")                 # longer than a SHA-512 in hex
 BASE64_RUN = re.compile(rb"[A-Za-z0-9+/]{200,}={0,2}")
 BYTE_ARRAY = re.compile(rb"(?:0x[0-9A-Fa-f]{2}\s*,\s*){64,}")
@@ -156,19 +166,24 @@ def audit_history(pieces) -> list[str]:
         path = blobs[sha]
         checked += 1
         suffix = Path(path).suffix.lower()
-        if suffix not in TEXT_SUFFIXES:
+        approved_hashes = DOCUMENTATION_SCREENSHOTS.get(path)
+        if suffix not in TEXT_SUFFIXES and not approved_hashes:
             problems.append(f"{path}: file type not in the whitelist")
         if int(size) > LIMIT:
             problems.append(f"{path}: {int(size)} bytes (over 1 MB)")
         data = git("cat-file", "blob", sha)
-        if b"\0" in data:
+        if approved_hashes and (not data.startswith(PNG_SIGNATURE) or
+                                hashlib.sha256(data).hexdigest() not in approved_hashes):
+            problems.append(f"{path}: is not an approved ROM-free documentation screenshot")
+        if b"\0" in data and not approved_hashes:
             problems.append(f"{path}: binary content (NUL bytes)")
-        for rx, what in ((HEX_RUN, "hex"), (BASE64_RUN, "base64"), (BYTE_ARRAY, "byte array")):
-            if rx is BYTE_ARRAY and path.startswith("external/"):
-                continue                # upstream libraries' own opcode / cycle tables
-            m = rx.search(data)
-            if m:
-                problems.append(f"{path}: long {what} run at offset {m.start()}")
+        if not approved_hashes:
+            for rx, what in ((HEX_RUN, "hex"), (BASE64_RUN, "base64"), (BYTE_ARRAY, "byte array")):
+                if rx is BYTE_ARRAY and path.startswith("external/"):
+                    continue                # upstream libraries' own opcode / cycle tables
+                m = rx.search(data)
+                if m:
+                    problems.append(f"{path}: long {what} run at offset {m.start()}")
         find_pieces(data, pieces, path, problems)
     print(f"history: {checked} files (every version of every file), ROM search {'on' if pieces else 'skipped'}")
     return problems

@@ -4,9 +4,9 @@ A native macOS 13+ port of **Metal Slug X** for Apple Silicon. The Neo Geo 68000
 privately recompiled to arm64 C from a ROM set you own, while SDL3 provides lifecycle, input, and
 CoreAudio integration and a dedicated Metal backend renders the full frontend.
 
-This repository and its releases contain no ROM, BIOS, graphics, audio, or generated game code.
-Metal Slug X is copyright SNK CORPORATION. This is an unofficial fan project and is not affiliated
-with or endorsed by SNK.
+This repository and its releases contain no ROM, BIOS, game graphics, game audio, or generated game
+code. Metal Slug X is copyright SNK CORPORATION. This is an unofficial fan project and is not
+affiliated with or endorsed by SNK.
 
 This Apple Silicon port is inspired by
 [AlmazProud/metal-slug-x-recomp](https://github.com/AlmazProud/metal-slug-x-recomp).
@@ -50,6 +50,16 @@ python3 -I tools/package_release.py --build build-dist --out release
 The packager refuses a build containing generated game code and creates an arm64-only `.app`, ZIP,
 and DMG. Developer ID signing and notarization are optional; see
 [Releasing](docs/RELEASING.md).
+
+## Screenshots
+
+These ROM-free captures show the native Metal onboarding and explicit invalid-set validation paths.
+They use only the port's built-in debug renderer; no game graphics or cartridge font data are
+included.
+
+| ROM setup | Invalid-set validation |
+|---|---|
+| ![Native Metal ROM setup screen](docs/screenshots/rom-setup.png) | ![Native Metal invalid-set validation screen](docs/screenshots/rom-validation.png) |
 
 ## Native features
 

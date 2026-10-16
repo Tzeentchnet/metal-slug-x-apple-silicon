@@ -75,6 +75,8 @@ extraido/
 *.wav
 *.ogg
 *.png
+!docs/screenshots/rom-setup.png
+!docs/screenshots/rom-validation.png
 *.bmp
 *.raw
 *.sav

@@ -64,4 +64,6 @@ python3 -I tools/audit.py history --roms game
 ```
 
 Never package `build-personal` or any directory containing normalized inputs, listings, coverage
-files, generated program sources, cached title graphics, screenshots, save states, or ROMs.
+files, generated program sources, cached title graphics, gameplay screenshots, save states, or
+ROMs. The repository permits only the exact, hash-allowlisted ROM-free frontend captures under
+`docs/screenshots/`; they are documentation and are not bundled into release artifacts.
