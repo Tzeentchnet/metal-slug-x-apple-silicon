@@ -1,0 +1,79 @@
+{
+  "schema": 2,
+  "note": "Pinned official Apple Silicon build and analysis artifacts. bootstrap.py verifies SHA-256 before extraction.",
+  "tools": [
+    {
+      "name": "cmake",
+      "version": "4.4.4",
+      "kind": "archive",
+      "check": "CMake.app/Contents/bin/cmake",
+      "strip_single_root": true,
+      "download": {
+        "file": "cmake-4.4.4-macos-universal.tar.gz",
+        "url": "https://github.com/Kitware/CMake/releases/download/v4.4.4/cmake-4.4.4-macos-universal.tar.gz",
+        "sha256": "4b7b73704b1db9b374e5c9ab8e17ac6148b817b6396ee75cd94a852cbac9d305",
+        "hash_source": "Kitware CMake v4.4.4 release asset digest"
+      }
+    },
+    {
+      "name": "ninja",
+      "version": "1.13.2",
+      "kind": "archive",
+      "check": "ninja",
+      "executables": [
+        "ninja"
+      ],
+      "strip_single_root": false,
+      "download": {
+        "file": "ninja-mac.zip",
+        "url": "https://github.com/ninja-build/ninja/releases/download/v1.13.2/ninja-mac.zip",
+        "sha256": "c99048673aa765960a99cf10c6ddb9f1fad506099ff0a0e137ad8960a88f321b",
+        "hash_source": "Ninja v1.13.2 release asset digest"
+      }
+    },
+    {
+      "name": "python",
+      "version": "3.14.8+20261013",
+      "kind": "archive",
+      "check": "bin/python3",
+      "strip_single_root": true,
+      "download": {
+        "file": "cpython-3.14.8+20261013-aarch64-apple-darwin-install_only.tar.gz",
+        "url": "https://github.com/astral-sh/python-build-standalone/releases/download/20261013/cpython-3.14.8%2B20261013-aarch64-apple-darwin-install_only.tar.gz",
+        "sha256": "709f419d175eb015f810b68aa54bdae1d776c9824cb362aa701c93b0a9f2a9e7",
+        "hash_source": "astral-sh/python-build-standalone 20261013 release asset digest"
+      }
+    },
+    {
+      "name": "sdl3",
+      "version": "3.4.18",
+      "kind": "dmg",
+      "check": "SDL3.xcframework/macos-arm64_x86_64/SDL3.framework/SDL3",
+      "copy": [
+        "SDL3.xcframework",
+        "share",
+        "LICENSE.txt"
+      ],
+      "download": {
+        "file": "SDL3-3.4.18.dmg",
+        "url": "https://github.com/libsdl-org/SDL/releases/download/release-3.4.18/SDL3-3.4.18.dmg",
+        "sha256": "c1adf3da91108dbc3e4205da5dacebc203085d283fa89e86eb2c889abd03a853",
+        "hash_source": "SDL release-3.4.18 asset digest"
+      }
+    },
+    {
+      "name": "mame-source",
+      "version": "0.289",
+      "kind": "archive",
+      "check": "makefile",
+      "strip_single_root": true,
+      "analysis_only": true,
+      "download": {
+        "file": "mame0289-source.tar.gz",
+        "url": "https://codeload.github.com/mamedev/mame/tar.gz/refs/tags/mame0289",
+        "sha256": "0929cc749afabcef892900e10dd90bd8b05f94a7dde8f367ac6a5d2082589f84",
+        "hash_source": "Locally verified codeload archive for the signed mame0289 tag"
+      }
+    }
+  ]
+}
