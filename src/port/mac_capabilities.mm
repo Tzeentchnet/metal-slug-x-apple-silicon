@@ -36,8 +36,9 @@ int mac_chip_generation(const char *chip_name)
 
 static int apple_gpu_family(id<MTLDevice> device)
 {
+    /* Xcode 16 headers stop at Apple9; Metal family values are 1000 plus the family number. */
     static const MTLGPUFamily FAMILIES[] = {
-        MTLGPUFamilyApple10, MTLGPUFamilyApple9, MTLGPUFamilyApple8, MTLGPUFamilyApple7,
+        static_cast<MTLGPUFamily>(1010), MTLGPUFamilyApple9, MTLGPUFamilyApple8, MTLGPUFamilyApple7,
         MTLGPUFamilyApple6, MTLGPUFamilyApple5, MTLGPUFamilyApple4, MTLGPUFamilyApple3,
         MTLGPUFamilyApple2, MTLGPUFamilyApple1,
     };
