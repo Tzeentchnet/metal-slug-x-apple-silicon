@@ -1,0 +1,45 @@
+name: macOS arm64
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  clean-app:
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install pinned toolchain
+        run: ./setup/bootstrap.sh
+
+      - name: Configure clean arm64 build
+        run: |
+          source setup/env.sh
+          cmake -S . -B build-dist \
+            -DPD_RECOMPILED=OFF \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DCMAKE_OSX_ARCHITECTURES=arm64
+
+      - name: Build and test ROM-free surfaces
+        run: |
+          source setup/env.sh
+          cmake --build build-dist -j 6
+          ctest --test-dir build-dist -R '^mac_capabilities$' --output-on-failure
+          build-dist/src/mslugx.app/Contents/MacOS/mslugx --version
+
+      - name: Package ZIP and DMG
+        run: |
+          source setup/env.sh
+          python3 -I tools/package_release.py --build build-dist --out release
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: metal-slug-x-macos-arm64
+          path: |
+            release/*.zip
+            release/*.dmg
